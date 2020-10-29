@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 import "./App.scss";
-import { getNode } from "./client/server.client";
-import { BinaryNode } from "./types/common.types";
+import ChatTreeExplorer from "./components/chatTree/chatTree";
+import reducer from "./redux/reducers/reducer";
 
 function App() {
-  const [currentNode, setCurrentNode]: [
-    BinaryNode | undefined,
-    any
-  ] = useState();
+  const store = createStore(reducer);
 
-  useEffect(() => {
-    if (currentNode?.text === undefined) {
-      getNode().then((headNode) => {
-        if (headNode?.children) {
-          headNode.children.forEach((id) => getNode(id));
-        }
-        setCurrentNode(headNode);
-      });
-    }
-  }, [currentNode]);
-
-  return <div className="App">{currentNode?.text}</div>;
+  return (
+    <div className="App">
+      <Provider store={store}>
+        <ChatTreeExplorer></ChatTreeExplorer>
+      </Provider>
+    </div>
+  );
 }
 
 export default App;
