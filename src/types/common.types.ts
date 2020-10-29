@@ -1,10 +1,13 @@
-export type BinaryNode = {
+type BaseBinary = {
   id: string;
   head: string;
-  children: string[];
   text: string;
 };
 
-export type BinaryList = BinaryNode & {
+export type BinaryNode = BaseBinary & {
+  children: string[];
+};
+
+export type BinaryList = BaseBinary & {
   children: BinaryNode[];
 };
