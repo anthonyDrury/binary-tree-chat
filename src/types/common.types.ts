@@ -1,6 +1,7 @@
 export type BinaryNode = {
   id: string;
-  head: string;
+  parentNode: string;
   text: string;
-  children?: Array<string | BinaryNode>;
+  children?: string[];
+  childNodes?: Array<BinaryNode | undefined>;
 };

@@ -1,5 +1,5 @@
 import { isDefined } from "../../support/support";
-import { mapTree, updateChildAtIndex } from "../../support/tree.support";
+import { mapTree, updateChildNodeAtIndex } from "../../support/tree.support";
 import { Actions, State } from "../../types/redux.types";
 
 export default function reducer(state: State = {}, action: Actions): State {
@@ -7,7 +7,14 @@ export default function reducer(state: State = {}, action: Actions): State {
     case "UPDATE_NODE":
       return {
         ...state,
-        chatTree: { ...action.payload.node, children: [] },
+        chatTree: state.chatTree
+          ? mapTree(state.chatTree, (node) => {
+              if (node.id === action.payload.node.id) {
+                return { ...action.payload.node };
+              }
+              return node;
+            })
+          : action.payload.node,
       };
     case "ADD_NODE":
       return {
@@ -17,7 +24,7 @@ export default function reducer(state: State = {}, action: Actions): State {
               if (node.id === action.payload.parent.id) {
                 return {
                   ...node,
-                  children: updateChildAtIndex(
+                  childNodes: updateChildNodeAtIndex(
                     node,
                     action.payload.childIndex,
                     action.payload.node
