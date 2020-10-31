@@ -1,7 +1,7 @@
-import { BinaryList, BinaryNode } from "./common.types";
+import { BinaryNode } from "./common.types";
 
 export type State = {
-  chatTree?: BinaryList;
+  chatTree?: BinaryNode;
 };
 
 export type Action = {
@@ -9,11 +9,16 @@ export type Action = {
   payload?: AllPayloads;
 };
 
-export type Actions = UpdateNodeAction;
+export type Actions = UpdateNodeAction | AddNodeAction;
 
 export interface UpdateNodeAction extends Action {
   type: "UPDATE_NODE";
   payload: { node: BinaryNode };
+}
+
+export interface AddNodeAction extends Action {
+  type: "ADD_NODE";
+  payload: { node: BinaryNode; parent: BinaryNode; childIndex: number };
 }
 
 export type AllPayloads = Actions["payload"];
