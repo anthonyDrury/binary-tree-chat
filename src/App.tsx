@@ -1,12 +1,11 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
 import "./App.scss";
-import ChatTreeExplorer from "./components/chatTree/chatTree";
-import reducer from "./redux/reducers/reducer";
+import ChatTreeExplorer from "./components/chatTree";
+import { configureStore } from "./redux/store/store";
 
 function App() {
-  const store = createStore(reducer);
+  const store = configureStore();
 
   return (
     <div className="App">

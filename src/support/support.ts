@@ -1,15 +1,3 @@
-import { BinaryList, BinaryNode } from "../types/common.types";
-
-export function isDefined(x: any | null | undefined): boolean {
+export function isDefined<T>(x: T | null | undefined): x is T {
   return x !== undefined && x !== null;
-}
-
-export function binaryNodeToList(
-  x: BinaryNode,
-  children: BinaryNode[]
-): BinaryList {
-  return {
-    ...x,
-    children,
-  };
 }
