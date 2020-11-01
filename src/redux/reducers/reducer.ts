@@ -1,8 +1,12 @@
 import { isDefined } from "../../support/support";
 import { mapTree, updateChildNodeAtIndex } from "../../support/tree.support";
 import { Actions, State } from "../../types/redux.types";
+import { initialState } from "../store/store";
 
-export default function reducer(state: State = {}, action: Actions): State {
+export default function reducer(
+  state: State = initialState,
+  action: Actions
+): State {
   switch (action.type) {
     case "UPDATE_NODE":
       return {
@@ -31,9 +35,16 @@ export default function reducer(state: State = {}, action: Actions): State {
                   ),
                 };
               }
+              return { ...node };
             })
           : action.payload.node,
       };
+    case "UPDATE_SUBMIT_PENDING": {
+      return {
+        ...state,
+        isSubmitPending: action.payload.pending,
+      };
+    }
     default:
       return state;
   }

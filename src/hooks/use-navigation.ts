@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { isDefined } from "../support/support";
-import { findNode } from "../support/tree.support";
-import { BinaryNode } from "../types/common.types";
+import { navigateNodes } from "../support/tree.support";
+import { BinaryNode, Directions } from "../types/common.types";
 import { State } from "../types/redux.types";
 
 export function useNavigation(
@@ -10,9 +9,10 @@ export function useNavigation(
   setCurrentNode: (_: BinaryNode) => void
 ): void {
   const chatTree = useSelector((state: State) => state?.chatTree);
+  const isSubmitPending = useSelector((state: State) => state.isSubmitPending);
 
   function navigationEvent(event: KeyboardEvent) {
-    if (node === undefined) {
+    if (node === undefined || isSubmitPending) {
       return;
     }
     // TODO
@@ -20,48 +20,19 @@ export function useNavigation(
     switch (event.code) {
       case "KeyS":
       case "ArrowDown":
-        {
-          const bottomNode = node.childNodes?.[0] ?? node.childNodes?.[1];
-          if (isDefined(bottomNode)) {
-            setCurrentNode(bottomNode);
-            console.log("DOWN");
-          }
-          // handle error if no child nodes
-        }
-
+        navigateNodes(Directions.down, node, setCurrentNode, chatTree);
         break;
       case "KeyW":
-      case "ArrowUp": {
-        if (chatTree === undefined) {
-          // handle error if no parent node
-          return;
-        }
-        const parentNode = findNode(node.parentNode, chatTree);
-        if (parentNode !== false) {
-          setCurrentNode(parentNode);
-          console.log("UP");
-        }
-
+      case "ArrowUp":
+        navigateNodes(Directions.up, node, setCurrentNode, chatTree);
         break;
-      }
-
       case "KeyA":
       case "ArrowLeft":
-        const leftChildNode = node.childNodes?.[0];
-        if (isDefined(leftChildNode)) {
-          setCurrentNode(leftChildNode);
-          console.log("LEFT");
-        }
-        // handle error if no left child node
+        navigateNodes(Directions.left, node, setCurrentNode, chatTree);
         break;
       case "KeyD":
       case "ArrowRight":
-        const rightChildNode = node.childNodes?.[1];
-        if (isDefined(rightChildNode)) {
-          setCurrentNode(rightChildNode);
-          console.log("RIGHT");
-        }
-        // handle error if no right child node
+        navigateNodes(Directions.right, node, setCurrentNode, chatTree);
         break;
     }
   }

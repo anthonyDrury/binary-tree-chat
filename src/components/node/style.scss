@@ -1,0 +1,16 @@
+.node {
+  margin: 0 auto;
+  width: 200px;
+  height: 300px;
+  border: 1px solid grey;
+  border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__child {
+    display: flex;
+    justify-content: space-around;
+  }
+}
