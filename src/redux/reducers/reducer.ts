@@ -45,6 +45,12 @@ export default function reducer(
         isSubmitPending: action.payload.pending,
       };
     }
+    case "SET_NAVIGATION": {
+      return {
+        ...state,
+        hasNavigationBegun: action.payload.direction,
+      };
+    }
     default:
       return state;
   }

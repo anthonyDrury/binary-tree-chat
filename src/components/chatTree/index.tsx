@@ -6,6 +6,7 @@ import { isDefined } from "../../support/support";
 import { findNode, navigateNodes } from "../../support/tree.support";
 import { BinaryNode, Directions } from "../../types/common.types";
 import { Actions, State } from "../../types/redux.types";
+import KeyboardOverlay from "../keyboardOverlay";
 import NodeDisplay from "../node";
 
 function ChatTreeExplorer() {
@@ -93,6 +94,7 @@ function ChatTreeExplorer() {
         node={currentNode}
         onNodeNavigation={manualNavigation}
       ></NodeDisplay>
+      <KeyboardOverlay />
     </>
   );
 }

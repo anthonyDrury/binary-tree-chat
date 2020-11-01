@@ -11,18 +11,18 @@ type NodeDisplayProps = {
 function NodeDisplay(props: NodeDisplayProps) {
   return (
     <div className="node">
-      <div>ARROW UP</div>
+      <div>^</div>
       <div>{props.node?.text}</div>
       <div className="node__child">
         <ChildNode
           node={props.node}
           childIndex={0}
-          onNavigation={() => "LEFT"}
+          onNavigation={() => props.onNodeNavigation(Directions.left)}
         />
         <ChildNode
           node={props.node}
           childIndex={1}
-          onNavigation={() => "RIGHT"}
+          onNavigation={() => props.onNodeNavigation(Directions.right)}
         />
       </div>
     </div>

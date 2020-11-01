@@ -4,6 +4,7 @@ import reducer from "../reducers/reducer";
 
 export const initialState: State = {
   isSubmitPending: false,
+  hasNavigationBegun: false,
 };
 
 export function configureStore(

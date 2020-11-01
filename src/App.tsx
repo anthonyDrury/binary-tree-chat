@@ -9,6 +9,7 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Binary Chat Tree</h1>
       <Provider store={store}>
         <ChatTreeExplorer></ChatTreeExplorer>
       </Provider>
