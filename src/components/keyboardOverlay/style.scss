@@ -1,0 +1,36 @@
+.keyboardOverlay {
+  position: absolute;
+  left: calc(50% - 100px);
+  margin: 0 auto;
+  width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  &--first {
+    margin: 5px 60px;
+  }
+
+  &__key {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    border: 1px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &--active {
+    border: 2px solid black;
+    font-weight: 700;
+  }
+
+  $start: 0;
+  $end: 9;
+  @for $i from $start through $end {
+    &--opacity-#{$i} {
+      opacity: #{$i / 10};
+    }
+  }
+}

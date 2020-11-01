@@ -1,8 +1,9 @@
-import { BinaryNode } from "./common.types";
+import { BinaryNode, Directions } from "./common.types";
 
 export type State = {
   chatTree?: BinaryNode;
   isSubmitPending: boolean;
+  hasNavigationBegun: boolean | Directions;
 };
 
 export type Action = {
@@ -10,7 +11,11 @@ export type Action = {
   payload?: AllPayloads;
 };
 
-export type Actions = UpdateNodeAction | AddNodeAction | UpdateIsSubmitPending;
+export type Actions =
+  | UpdateNodeAction
+  | AddNodeAction
+  | UpdateIsSubmitPending
+  | SetNavigationBegun;
 
 export interface UpdateNodeAction extends Action {
   type: "UPDATE_NODE";
@@ -27,6 +32,11 @@ export interface UpdateIsSubmitPending extends Action {
   payload: {
     pending: boolean;
   };
+}
+
+export interface SetNavigationBegun extends Action {
+  type: "SET_NAVIGATION";
+  payload: { direction: Directions | boolean };
 }
 
 export type AllPayloads = Actions["payload"];
