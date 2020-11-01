@@ -19,3 +19,19 @@ export async function getNode(id?: string): Promise<BinaryNode> {
   }
   return body;
 }
+
+export async function addNode(
+  parentId: string,
+  text: string
+): Promise<BinaryNode> {
+  const response: Response = await fetch(`${API_URL}/dev/createNode`, {
+    method: "POST",
+    body: JSON.stringify({ headId: parentId, bodyText: text }),
+  });
+  const body: Promise<BinaryNode> = response.json();
+
+  if (response.status !== 200) {
+    throw Error((body as any).message);
+  }
+  return body;
+}

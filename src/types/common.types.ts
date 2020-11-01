@@ -5,3 +5,10 @@ export type BinaryNode = {
   children?: string[];
   childNodes?: Array<BinaryNode | undefined>;
 };
+
+export enum Directions {
+  left = "LEFT",
+  right = "RIGHT",
+  up = "UP",
+  down = "DOWN",
+}

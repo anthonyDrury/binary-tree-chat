@@ -1,6 +1,6 @@
 // Utilities relating to interacting with the binary tree
 
-import { BinaryNode } from "../types/common.types";
+import { BinaryNode, Directions } from "../types/common.types";
 import { isDefined } from "./support";
 
 // Traverse tree in preorder looking for the node
@@ -72,4 +72,52 @@ export function updateChildNodeAtIndex(
   });
 
   return newChildNodes;
+}
+
+export function navigateNodes(
+  direction: Directions,
+  node: BinaryNode,
+  setNodeFn: (x: BinaryNode) => void,
+  tree?: BinaryNode
+) {
+  switch (direction) {
+    case "LEFT": {
+      const leftNode = node.childNodes?.[0];
+      if (isDefined(leftNode)) {
+        setNodeFn(leftNode);
+      }
+      // TODO: Deal with no valid node (show message / prompt new node)
+      break;
+    }
+    case "RIGHT": {
+      const rightNode = node.childNodes?.[1];
+      if (isDefined(rightNode)) {
+        setNodeFn(rightNode);
+      }
+      // TODO: Deal with no valid node (show message / prompt new node)
+      break;
+    }
+    case "UP": {
+      if (!isDefined(tree)) {
+        // Should never happen, add error case if it does
+        return;
+      }
+      const parentNode = findNode(node.parentNode, tree);
+      if (parentNode !== false) {
+        setNodeFn(parentNode);
+      }
+      // TODO: Deal with no valid node (show message / prompt new node)
+      break;
+    }
+    case "DOWN": {
+      const downNode = node.childNodes?.[0] ?? node.childNodes?.[1];
+      if (isDefined(downNode)) {
+        setNodeFn(downNode);
+      }
+      // TODO: Deal with no valid node (show message / prompt new node)
+      break;
+    }
+    default:
+      break;
+  }
 }
