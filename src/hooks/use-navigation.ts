@@ -10,7 +10,19 @@ export function useNavigation(
 ): void {
   const dispatch = useDispatch<Dispatch<Actions>>();
   const chatTree = useSelector((state: State) => state?.chatTree);
+  const hasNavigationBegun = useSelector(
+    (state: State) => state.hasNavigationBegun
+  );
   const isSubmitPending = useSelector((state: State) => state.isSubmitPending);
+
+  function displayKeypress(direction: Directions): void {
+    if (hasNavigationBegun === false) {
+      dispatch({
+        type: "SET_NAVIGATION",
+        payload: { direction },
+      });
+    }
+  }
 
   function navigationEvent(event: KeyboardEvent) {
     if (node === undefined || isSubmitPending) {
@@ -22,34 +34,22 @@ export function useNavigation(
       case "KeyS":
       case "ArrowDown":
         navigateNodes(Directions.down, node, setCurrentNode, chatTree);
-        dispatch({
-          type: "SET_NAVIGATION",
-          payload: { direction: Directions.down },
-        });
+        displayKeypress(Directions.down);
         break;
       case "KeyW":
       case "ArrowUp":
         navigateNodes(Directions.up, node, setCurrentNode, chatTree);
-        dispatch({
-          type: "SET_NAVIGATION",
-          payload: { direction: Directions.up },
-        });
+        displayKeypress(Directions.up);
         break;
       case "KeyA":
       case "ArrowLeft":
         navigateNodes(Directions.left, node, setCurrentNode, chatTree);
-        dispatch({
-          type: "SET_NAVIGATION",
-          payload: { direction: Directions.left },
-        });
+        displayKeypress(Directions.left);
         break;
       case "KeyD":
       case "ArrowRight":
         navigateNodes(Directions.right, node, setCurrentNode, chatTree);
-        dispatch({
-          type: "SET_NAVIGATION",
-          payload: { direction: Directions.right },
-        });
+        displayKeypress(Directions.right);
         break;
     }
   }

@@ -4,6 +4,7 @@ import { isDefined } from "../../support/support";
 import { useDispatch, useSelector } from "react-redux";
 import { addNode } from "../../client/server.client";
 import { Actions, State } from "../../types/redux.types";
+import "./style.scss";
 
 type ChildNodePropTypes = {
   node: BinaryNode;
@@ -80,8 +81,30 @@ function ChildNode(props: ChildNodePropTypes) {
     );
   }
 
+  function truncateText(text: string | undefined): string {
+    if (!isDefined(text)) {
+      return props.childIndex === 0 ? "LEFT" : "RIGHT";
+    }
+    if (text.length <= 10) {
+      return text;
+    }
+    return `${text.substring(0, 10)}...`;
+  }
+
   return (
-    <div onClick={navigate}>{props.childIndex === 0 ? "LEFT" : "RIGHT"}</div>
+    <div
+      className={`childNode ${
+        props.childIndex === 0 ? "childNode--left" : "childNode--right"
+      }`}
+      onClick={navigate}
+    >
+      <p>
+        {" "}
+        {props.childIndex === 0
+          ? truncateText(props.node?.childNodes?.[props.childIndex]?.text)
+          : "RIGHT"}
+      </p>
+    </div>
   );
 }
 

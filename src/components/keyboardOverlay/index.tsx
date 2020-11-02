@@ -19,25 +19,29 @@ function KeyboardOverlay() {
       interval.current = setInterval(() => {
         setOpacity((opacity) => opacity - 1);
       }, 100);
-
-      if (!isDefined(timer.current)) {
-        timer.current = setTimeout(() => {
-          dispatch({
-            type: "SET_NAVIGATION",
-            payload: { direction: true },
-          });
-        }, 3000);
-      }
     }
     return () => {
-      if (isDefined(timer.current)) {
-        clearTimeout(timer.current);
-      }
       if (isDefined(interval.current)) {
         clearTimeout(interval.current);
       }
     };
   }, [hasNavigationBegun, dispatch, opacity]);
+
+  useEffect(() => {
+    if (hasNavigationBegun !== false && hasNavigationBegun !== true) {
+      timer.current = setTimeout(() => {
+        dispatch({
+          type: "SET_NAVIGATION",
+          payload: { direction: true },
+        });
+      }, 1000);
+    }
+    return () => {
+      if (isDefined(timer.current)) {
+        clearTimeout(timer.current);
+      }
+    };
+  }, [hasNavigationBegun, dispatch]);
 
   if (hasNavigationBegun === true) {
     return null;
@@ -51,19 +55,19 @@ function KeyboardOverlay() {
     switch (key) {
       case "w":
         return hasNavigationBegun === Directions.up
-          ? `keyboardOverlay--active keyboardOverlay--opacity-${opacity}`
+          ? `keyboardOverlay--active`
           : "";
       case "a":
         return hasNavigationBegun === Directions.left
-          ? `keyboardOverlay--active keyboardOverlay--opacity-${opacity}`
+          ? `keyboardOverlay--active`
           : "";
       case "s":
         return hasNavigationBegun === Directions.down
-          ? `keyboardOverlay--active keyboardOverlay--opacity-${opacity}`
+          ? `keyboardOverlay--active`
           : "";
       case "d":
         return hasNavigationBegun === Directions.right
-          ? `keyboardOverlay--active keyboardOverlay--opacity-${opacity}`
+          ? `keyboardOverlay--active`
           : "";
       default:
         return "";
@@ -73,15 +77,33 @@ function KeyboardOverlay() {
   return (
     <div className="keyboardOverlay">
       <div
-        className={`keyboardOverlay__key keyboardOverlay--first ${getActiveKeyClass(
+        className={`keyboardOverlay__key keyboardOverlay--opacity-${opacity} keyboardOverlay--first ${getActiveKeyClass(
           "w"
         )}`}
       >
         w
       </div>
-      <div className={`keyboardOverlay__key ${getActiveKeyClass("a")}`}>a</div>
-      <div className={`keyboardOverlay__key ${getActiveKeyClass("s")}`}>s</div>
-      <div className={`keyboardOverlay__key ${getActiveKeyClass("d")}`}>d</div>
+      <div
+        className={`keyboardOverlay__key keyboardOverlay--opacity-${opacity} ${getActiveKeyClass(
+          "a"
+        )}`}
+      >
+        a
+      </div>
+      <div
+        className={`keyboardOverlay__key keyboardOverlay--opacity-${opacity} ${getActiveKeyClass(
+          "s"
+        )}`}
+      >
+        s
+      </div>
+      <div
+        className={`keyboardOverlay__key keyboardOverlay--opacity-${opacity} ${getActiveKeyClass(
+          "d"
+        )}`}
+      >
+        d
+      </div>
     </div>
   );
 }

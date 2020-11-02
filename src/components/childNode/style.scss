@@ -1,0 +1,11 @@
+.childNode {
+  margin: 0 auto;
+  width: 250px;
+  height: 150px;
+  border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #f4f4f4;
+}
